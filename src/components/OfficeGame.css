@@ -123,3 +123,163 @@
 .text-orange {
   color: #fb923c;
 }
+
+/* Status Selector */
+.status-selector-container {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.status-pill {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.status-pill.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--status-color, white);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+/* Toast Notification */
+.toast-notification {
+  position: fixed;
+  top: 6rem;
+  right: 2rem;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.toast-content {
+  background: rgba(34, 197, 94, 0.9);
+  backdrop-filter: blur(12px);
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  font-weight: 500;
+}
+
+/* Current User Info */
+.current-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.user-label {
+  color: #9ca3af;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.user-status {
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* Online Users Card */
+.online-users-card {
+  min-width: 200px;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.online-users-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.online-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.online-users-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.online-users-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+.online-users-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.online-user-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.online-user-item .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.online-user-name {
+  color: white;
+  flex: 1;
+}
+
+.you-badge {
+  color: #22c55e;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

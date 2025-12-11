@@ -10,23 +10,36 @@ export interface NPCContainer extends PIXI.Container {
   updateNPC: (delta: number) => void;
   showBubble: (text: string, onComplete: () => void) => void;
   setChatting: (isChatting: boolean) => void;
+  updateStatus: (status: NPCStatusType) => void;
+  forceIdle: (duration: number) => void;
   sprite?: PIXI.Sprite;
   status: NPCStatusType;
   mode: 'idle' | 'walking';
+  lastChatTime: number; // Timestamp of last chat
+}
+
+export interface NPCOptions {
+    isUser?: boolean;
+    gender?: 'male' | 'female';
+    initialStatus?: NPCStatusType;
 }
 
 export const createNPC = (
   getValidTarget: () => { x: number; y: number },
   startPos: { x: number; y: number },
   textures: NPCTextures,
-  name: string
+  name: string,
+  options: NPCOptions = {}
 ): NPCContainer => {
   const container = new PIXI.Container() as NPCContainer;
-  const isMale = Math.random() > 0.5;
+  const isUser = !!options.isUser;
+  const gender = options.gender || (Math.random() > 0.5 ? 'male' : 'female');
+  const isMale = gender === 'male';
 
   // Status Logic
   const statuses = Object.values(NPC_STATUS);
-  const currentStatus: NPCStatusType = statuses[Math.floor(Math.random() * statuses.length)];
+  // Default to random if not specified
+  let currentStatus: NPCStatusType = options.initialStatus || statuses[Math.floor(Math.random() * statuses.length)];
   container.status = currentStatus;
 
   // Internal state
@@ -39,8 +52,10 @@ export const createNPC = (
     walkTime: 0,
     bubbleTime: 0,
     isChatting: false,
+    lastChatTime: 0, // Track last chat time
   };
   container.mode = state.mode;
+  container.lastChatTime = 0;
 
   // Shadow
   const shadow = new PIXI.Graphics();
@@ -64,8 +79,6 @@ export const createNPC = (
   // Name is passed in as argument
   // const randomName = names[Math.floor(Math.random() * names.length)];
   
-  const statusColor = STATUS_COLORS[currentStatus];
-  
   const nameStyle = new PIXI.TextStyle({
     fontFamily: 'Arial',
     fontSize: 12,
@@ -80,17 +93,43 @@ export const createNPC = (
   nameText.y = -50; 
   container.addChild(nameText);
 
-  // Status Dot (Teams style)
+  // Status Dot (Only for non-users)
   const statusDot = new PIXI.Graphics();
-  statusDot.circle(0, 0, 4);
-  statusDot.fill({ color: statusColor });
-  // Add a white stroke to make the dot pop
-  statusDot.stroke({ width: 1, color: 0xFFFFFF });
-  
-  // Position to the right of the name
-  statusDot.x = nameText.width / 2 + 8; 
-  statusDot.y = -58; // Align with text center approx
-  container.addChild(statusDot);
+  if (!isUser) {
+    statusDot.circle(0, 0, 4);
+    // Add a white stroke to make the dot pop
+    statusDot.stroke({ width: 1, color: 0xFFFFFF });
+    
+    // Position to the right of the name
+    statusDot.x = nameText.width / 2 + 8; 
+    statusDot.y = -58; // Align with text center approx
+    container.addChild(statusDot);
+  }
+
+  // Update Visuals based on status
+  const updateVisuals = (status: NPCStatusType) => {
+      const color = STATUS_COLORS[status];
+      
+      if (isUser) {
+          // User: Name text color changes
+          nameText.style.fill = color;
+      } else {
+          // Bot: Dot color changes
+          statusDot.clear();
+          statusDot.circle(0, 0, 4);
+          statusDot.fill({ color: color });
+          statusDot.stroke({ width: 1, color: 0xFFFFFF });
+      }
+  };
+
+  // Initial update
+  updateVisuals(currentStatus);
+
+  // Add updateStatus method
+  container.updateStatus = (newStatus: NPCStatusType) => {
+      container.status = newStatus;
+      updateVisuals(newStatus);
+  };
 
   // Chat Bubble Container
   const bubbleContainer = new PIXI.Container();
@@ -180,6 +219,13 @@ export const createNPC = (
   // Set Chatting Status
   container.setChatting = (val: boolean) => {
     state.isChatting = val;
+  };
+
+  // Force Idle (for drag and drop)
+  container.forceIdle = (duration: number) => {
+    state.mode = 'idle';
+    state.idleTime = duration;
+    state.isChatting = false;
   };
 
   // Update function

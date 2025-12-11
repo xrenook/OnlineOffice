@@ -1,6 +1,6 @@
 export const MAP_WIDTH = 1024;
 export const MAP_HEIGHT = 1024;
-export const DEFAULT_NPC_COUNT = 10;
+export const DEFAULT_NPC_COUNT = 15;
 
 export const ASSETS = {
   MAP: '/map_large.png',
