@@ -1,0 +1,125 @@
+.game-overlay {
+  position: fixed; /* Keep UI fixed while scrolling */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.glass-card {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title-card h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: white;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #22c55e;
+  border-radius: 9999px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.stats-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon-box {
+  padding: 0.5rem;
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 0.5rem;
+  color: #60a5fa;
+  display: flex;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-family: monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-bar {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+}
+
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  height: 1.5rem;
+  align-self: center;
+}
+
+.text-purple {
+  color: #c084fc;
+}
+.text-orange {
+  color: #fb923c;
+}
