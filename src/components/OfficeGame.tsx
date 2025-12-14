@@ -49,18 +49,28 @@ const OfficeGame: React.FC<OfficeGameProps> = ({
     // Force NPC creation/update when players data changes
   }, [players]);
 
-  // Detect new players joining
+  // Detect new players joining or leaving
   useEffect(() => {
     const currentPlayerCount = Object.keys(players).length;
     const previousCount = previousPlayerCountRef.current;
 
-    if (previousCount > 0 && currentPlayerCount > previousCount) {
-      // New player joined
-      setToastMessage(`New user joined! Refresh to see them.`);
-      setShowToast(true);
+    // Only notify if we had players before (avoid initial load spam) or if it's a genuine update
+    // Actually, checking previousCount is defined is safer, but 0 is a valid previous count if everyone left.
+    // Let's assume on mount previousPlayerCountRef is 0.
+    // If we go 0 -> 1 (me), we don't need toast.
+    // If we go 1 -> 2, someone else joined.
 
-      // Auto-hide toast after 5 seconds
-      setTimeout(() => setShowToast(false), 5000);
+    if (currentPlayerCount !== previousCount && previousCount !== 0) {
+      if (currentPlayerCount > previousCount) {
+        setToastMessage(`New user joined!`);
+        setShowToast(true);
+      } else if (currentPlayerCount < previousCount) {
+        setToastMessage(`A user left the office.`);
+        setShowToast(true);
+      }
+
+      // Auto-hide toast after 4 seconds
+      setTimeout(() => setShowToast(false), 4000);
     }
 
     previousPlayerCountRef.current = currentPlayerCount;
@@ -387,7 +397,8 @@ const OfficeGame: React.FC<OfficeGameProps> = ({
           npcMapRef.current.forEach((val, key) => {
             if (key.startsWith("player-")) {
               const uid = key.replace("player-", "");
-              if (!players[uid]) {
+              // FIX: Use playersRef.current to get latest data, not stale 'players' closure
+              if (!playersRef.current[uid]) {
                 world!.removeChild(val);
                 val.destroy();
                 npcMapRef.current.delete(key);

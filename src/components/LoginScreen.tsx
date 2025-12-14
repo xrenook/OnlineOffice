@@ -137,7 +137,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onJoin, existingNames }) => {
                 className={`status-item ${status === s ? "selected" : ""}`}
                 style={{
                   color: STATUS_COLORS[s],
-                  borderColor: status === s ? STATUS_COLORS[s] : "transparent",
+                  borderColor: status === s ? STATUS_COLORS[s] : undefined,
                 }}
                 onClick={() => setStatus(s)}
               >

@@ -1,74 +1,113 @@
+/* Import a pixel-like font if possible, or fallback to serif */
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+
 .login-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
+  /* Deep purple/night sky background with pixel art star vibe */
+  background: linear-gradient(180deg, #1a1a2e 0%, #3a3a5e 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
-  color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "VT323", monospace;
+  image-rendering: pixelated;
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Classic Tan "Dialog Box" Background */
+  background: #ffdeb7;
+  /* Thick "Wood" Border style using box-shadows or border */
+  border: 4px solid #855e42;
+  outline: 4px solid #5c4033;
   padding: 2rem;
-  border-radius: 24px;
-  width: 400px;
+  width: 420px;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  animation: floatIn 0.5s ease-out;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5), inset 4px 4px 0 #fff0e0,
+    inset -4px -4px 0 #dcc09c;
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  /* Corner ornamentation simulated */
 }
 
-@keyframes floatIn {
-  from {
+/* Corner Screw Details */
+.login-card::after,
+.login-card::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #855e42;
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+.login-card::before {
+  top: 8px;
+  left: 8px;
+}
+.login-card::after {
+  top: 8px;
+  right: 8px;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
     opacity: 0;
-    transform: translateY(20px);
   }
-  to {
+  100% {
+    transform: scale(1);
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .login-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 3rem;
+  color: #8b0000; /* Deep Red/Brown Title */
+  text-shadow: 2px 2px 0 #cc8866;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .login-subtitle {
-  color: #94a3b8;
+  color: #5c4033;
+  font-size: 1.5rem;
   margin-bottom: 2rem;
+  /* Decorative line */
+  border-bottom: 2px dashed #855e42;
+  display: inline-block;
+  padding-bottom: 5px;
 }
 
 .btn-google {
-  background: white;
-  color: #333;
-  border: none;
+  background: #e69d58; /* Wood plank color */
+  color: #3e2723;
+  border: 4px solid #5d4037;
   padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
+  font-family: "VT323", monospace;
+  font-size: 1.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   width: 100%;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.1s;
+  box-shadow: inset 4px 4px 0 #f0be8c, inset -4px -4px 0 #b07040;
 }
 
 .btn-google:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.btn-google:active {
+  transform: scale(0.98);
+  box-shadow: inset 4px 4px 0 #b07040, inset -4px -4px 0 #f0be8c;
 }
 
 .form-group {
@@ -78,25 +117,27 @@
 
 .form-label {
   display: block;
-  font-size: 0.875rem;
-  color: #94a3b8;
+  font-size: 1.4rem;
+  color: #5c4033;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .form-input {
   width: 100%;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
+  padding: 10px;
+  background: #fff8e7; /* Paper white */
+  border: 4px solid #855e42;
+  color: #3e2723;
+  font-family: "VT323", monospace;
+  font-size: 1.5rem;
   outline: none;
-  transition: border-color 0.2s;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .form-input:focus {
-  border-color: #6366f1;
+  background: #ffffff;
+  border-color: #d2691e;
 }
 
 .gender-select {
@@ -107,34 +148,51 @@
 .gender-option {
   flex: 1;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: #e6c8a0;
+  border: 3px solid #855e42;
+  color: #5c4033;
+  font-size: 1.4rem;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gender-option:hover {
+  background: #f0d8b6;
 }
 
 .gender-option.selected {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: #6366f1;
+  background: #85c265; /* Farming Green */
+  color: #1a4208;
+  border-color: #2e5e1e;
+  box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary {
-  background: #6366f1;
-  color: white;
-  border: none;
+  background: #d84315; /* Action Orange/Red */
+  color: #fff;
+  border: 4px solid #bf360c;
   padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
+  font-family: "VT323", monospace;
+  font-size: 1.8rem;
   width: 100%;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.1s;
   margin-top: 1rem;
+  text-shadow: 2px 2px 0 #872506;
+  box-shadow: inset 4px 4px 0 #ff7043, inset -4px -4px 0 #a3320c;
 }
 
 .btn-primary:hover {
-  background: #4f46e5;
+  filter: brightness(1.1);
   transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: inset 4px 4px 0 #a3320c, inset -4px -4px 0 #ff7043;
 }
 
 .status-grid {
@@ -145,15 +203,22 @@
 
 .status-item {
   padding: 0.5rem;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid transparent;
+  background: #fff8e7;
+  border: 3px solid #dcc09c;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
+  color: #5c4033;
   transition: all 0.2s;
+  text-align: center;
+}
+
+.status-item:hover {
+  border-color: #855e42;
 }
 
 .status-item.selected {
-  border-color: currentColor;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: currentColor; /* Uses the dynamic color from JS */
+  background: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }

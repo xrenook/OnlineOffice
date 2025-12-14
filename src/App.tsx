@@ -27,10 +27,10 @@ function App() {
 
         if (savedProfile && lastActive) {
           const timeSinceLastActive = Date.now() - parseInt(lastActive);
-          const ONE_MINUTE = 60 * 1000;
+          const SESSION_TIMEOUT_MS = 2 * 60 * 1000;
 
-          // If less than 1 minute since last active, auto-rejoin
-          if (timeSinceLastActive < ONE_MINUTE) {
+          // If less than 2 minutes since last active, auto-rejoin
+          if (timeSinceLastActive < SESSION_TIMEOUT_MS) {
             const profile = JSON.parse(savedProfile);
 
             // Wait a bit to ensure joinGame is ready
@@ -52,9 +52,10 @@ function App() {
                 });
             }, 100);
           } else {
-            // More than 1 minute, clear session
+            // More than 2 minutes, clear session and sign out
             localStorage.removeItem("userProfile");
             localStorage.removeItem("lastActive");
+            auth.signOut();
           }
         }
       } else {
